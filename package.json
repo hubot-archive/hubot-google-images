@@ -1,0 +1,39 @@
+{
+  "name": "hubot-google-images",
+  "description": "A hubot script that brings Google Images into chat",
+  "version": "0.0.0",
+  "author": "Josh Nichols <technicalpickles@github.com>",
+  "license": "MIT",
+
+  "keywords": ["hubot","hubot-scripts"],
+
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hubot-scripts/hubot-google-images.git"
+  },
+
+  "bugs": {
+    "url": "https://github.com/hubot-scripts/hubot-google-images/issues"
+  },
+
+  "peerDependencies": {
+    "hubot": "2.x"
+  },
+
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*",
+    "sinon-chai": "*",
+    "sinon": "*",
+    "grunt-mocha-test": "~0.7.0",
+    "grunt-release": "~0.6.0",
+    "matchdep": "~0.1.2",
+    "grunt-contrib-watch": "~0.5.3"
+  },
+
+  "main": "index.coffee",
+
+  "scripts": {
+    "test": "grunt test"
+  }
+}
