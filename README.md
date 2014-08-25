@@ -1,7 +1,6 @@
 # hubot-google-images
 
-A hubot script that provides a way to interact with the Google Images API for
-greater productivity and lulz.
+A hubot script that interacts with the Google Images API for greater productivity and lulz.
 
 See [`src/google-images.coffee`](src/google-images.coffee) for full documentation.
 
