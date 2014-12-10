@@ -16,7 +16,7 @@ module.exports = (robot) ->
     imageMe msg, msg.match[2], true, (url) ->
       msg.send url
 
-  robot.respond /(?:mo?u)?sta(?:s|c)h(e|ify)?(?: me)? (.*)/i, (msg) ->
+  robot.respond /(?:mo?u)?sta(?:s|c)h(?:e|ify)?(?: me)? (.*)/i, (msg) ->
     type = Math.floor(Math.random() * 6)
     mustachify = "http://mustachify.me/#{type}?src="
     imagery = msg.match[1]
