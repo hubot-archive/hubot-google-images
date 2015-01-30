@@ -17,6 +17,11 @@ Then add **hubot-google-images** to your `external-scripts.json`:
   "hubot-google-images"
 ]
 ```
+## Configuration
+
+Set environment variables `HUBOT_GOOGLE_CSE_ID` and `HUBOT_GOOGLE_API_KEY` to use the
+[Google Custom Search API](https://developers.google.com/custom-search/docs/overview)
+instead of the deprecated image search API.
 
 ## Sample Interaction
 
