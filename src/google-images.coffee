@@ -35,40 +35,53 @@ imageMe = (msg, query, animated, faces, cb) ->
   cb = animated if typeof animated == 'function'
   cb = faces if typeof faces == 'function'
   googleCseId = process.env.HUBOT_GOOGLE_CSE_ID
-  googleApiKey = process.env.HUBOT_GOOGLE_API_KEY
   if googleCseId
-    q = q: query, searchType:'image', safe:'high',
-    fields:'items(link)',
-    cx: googleCseId, key: googleApiKey
+    # Using Google Custom Search API
+    googleApiKey = process.env.HUBOT_GOOGLE_API_KEY
+    if !googleApiKey
+      msg.robot.logger.error "Missing Google API key"
+      return
+    q =
+      q: query,
+      searchType:'image',
+      safe:'high',
+      fields:'items(link)',
+      cx: googleCseId,
+      key: googleApiKey
     if typeof animated is 'boolean' and animated is true
       q.fileType = 'gif'
       q.hq = 'animated'
-    q.imgType = 'face' if typeof faces is 'boolean' and faces is true
+    if typeof faces is 'boolean' and faces is true
+      q.imgType = 'face'
     url = 'https://www.googleapis.com/customsearch/v1'
+    msg.http(url)
+      .query(q)
+      .get() (err, res, body) ->
+        response = JSON.parse(body)
+        data = response?.responseData
+        if data?.items
+          image = msg.random data.items
+          cb ensureImageExtension image.link
+        else
+          msg.send "Oops. I had trouble searching '#{query}'. Try later."
+          ((error) ->
+            msg.robot.logger.error error.message
+            msg.robot.logger
+              .error "(see #{error.extendedHelp})" if error.extendedHelp
+          ) error for error in response.error.errors if response.error?.errors
   else
+    # Using deprecated Google image search API
     q = v: '1.0', rsz: '8', q: query, safe: 'active'
     q.imgtype = 'animated' if typeof animated is 'boolean' and animated is true
     q.imgtype = 'face' if typeof faces is 'boolean' and faces is true
-    url = 'https://ajax.googleapis.com/ajax/services/search/images'
-  msg.http(url)
-    .query(q)
-    .get() (err, res, body) ->
-      response = JSON.parse(body)
-      images = response.responseData.results if response?.responseData
-      images = response.items if response?.items
-      if images?.length > 0
-        image = msg.random images
-        imgsrc = image.unescapedUrl
-        imgsrc = image.link if image.link
-        cb ensureImageExtension imgsrc
-      else
-        msg.send "Oops. I'm having trouble finding '#{query}'. Try again later."
-        ((error) ->
-          msg.robot.logger.error error.message
-          msg.robot.logger
-            .error "(see #{error.extendedHelp})" if error.extendedHelp
-        ) error for error in response.error.errors if response.error?.errors
-
+    msg.http('https://ajax.googleapis.com/ajax/services/search/images')
+      .query(q)
+      .get() (err, res, body) ->
+        images = JSON.parse(body)
+        images = images.responseData?.results
+        if images?.length > 0
+          image = msg.random images
+          cb ensureImageExtension image.unescapedUrl
 
 ensureImageExtension = (url) ->
   ext = url.split('.').pop()
