@@ -40,7 +40,6 @@ imageMe = (msg, query, animated, faces, cb) ->
     googleApiKey = process.env.HUBOT_GOOGLE_API_KEY
     if !googleApiKey
       msg.robot.logger.error "Missing Google API key"
-      return
     q =
       q: query,
       searchType:'image',
