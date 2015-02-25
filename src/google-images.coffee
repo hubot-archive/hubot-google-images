@@ -57,9 +57,8 @@ imageMe = (msg, query, animated, faces, cb) ->
       .query(q)
       .get() (err, res, body) ->
         response = JSON.parse(body)
-        data = response?.responseData
-        if data?.items
-          image = msg.random data.items
+        if response?.items
+          image = msg.random response.items
           cb ensureImageExtension image.link
         else
           msg.send "Oops. I had trouble searching '#{query}'. Try later."
