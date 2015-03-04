@@ -17,8 +17,7 @@ module.exports = (robot) ->
       msg.send url
 
   robot.respond /(?:mo?u)?sta(?:s|c)h(?:e|ify)?(?: me)? (.*)/i, (msg) ->
-    type = Math.floor(Math.random() * 6)
-    mustachify = "http://mustachify.me/#{type}?src="
+    mustachify = "http://mustachify.me/rand?src="
     imagery = msg.match[1]
 
     if imagery.match /^https?:\/\//i
