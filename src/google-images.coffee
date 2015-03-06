@@ -1,6 +1,9 @@
 # Description:
 #   A way to interact with the Google Images API.
 #
+# Configuration:
+#   HUBOT_MUSTACHIFY_URL - Optional. Allow you to use your own mustachify instance.
+#
 # Commands:
 #   hubot image me <query> - The Original. Queries Google Images for <query> and returns a random top result.
 #   hubot animate me <query> - The same thing as `image me`, except adds a few parameters to try to return an animated GIF instead.
@@ -17,7 +20,7 @@ module.exports = (robot) ->
       msg.send url
 
   robot.respond /(?:mo?u)?sta(?:s|c)h(?:e|ify)?(?: me)? (.*)/i, (msg) ->
-    mustacheBaseUrl = process.env.HUBOT_MUSTACHIFY_URL or "http://mustachify.me"
+    mustacheBaseUrl = process.env.HUBOT_MUSTACHIFY_URL.replace(/\/$/, '') or "http://mustachify.me"
     mustachify = "#{mustacheBaseUrl}/rand?src="
     imagery = msg.match[1]
 
