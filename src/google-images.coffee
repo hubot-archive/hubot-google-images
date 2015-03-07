@@ -20,7 +20,7 @@ module.exports = (robot) ->
       msg.send url
 
   robot.respond /(?:mo?u)?sta(?:s|c)h(?:e|ify)?(?: me)? (.*)/i, (msg) ->
-    mustacheBaseUrl = process.env.HUBOT_MUSTACHIFY_URL.replace(/\/$/, '') or "http://mustachify.me"
+    mustacheBaseUrl = process.env.HUBOT_MUSTACHIFY_URL?.replace(/\/$/, '') or "http://mustachify.me"
     mustachify = "#{mustacheBaseUrl}/rand?src="
     imagery = msg.match[1]
 
