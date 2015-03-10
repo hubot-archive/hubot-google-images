@@ -2,7 +2,7 @@
 #   A way to interact with the Google Images API.
 #
 # Configuration
-#   HUBOT_GOOGLE_API_KEY - Your developer API key
+#   HUBOT_GOOGLE_CSE_KEY - Your Google developer API key
 #   HUBOT_GOOGLE_CSE_ID - The ID of your Custom Search Engine
 #
 # Commands:
@@ -37,9 +37,11 @@ imageMe = (msg, query, animated, faces, cb) ->
   googleCseId = process.env.HUBOT_GOOGLE_CSE_ID
   if googleCseId
     # Using Google Custom Search API
-    googleApiKey = process.env.HUBOT_GOOGLE_API_KEY
+    googleApiKey = process.env.HUBOT_GOOGLE_CSE_KEY
     if !googleApiKey
-      msg.robot.logger.error "Missing Google API key"
+      msg.robot.logger.error "Missing environment variable HUBOT_GOOGLE_CSE_KEY"
+      msg.send "Missing server environment variable HUBOT_GOOGLE_CSE_KEY."
+      return
     q =
       q: query,
       searchType:'image',
@@ -56,6 +58,12 @@ imageMe = (msg, query, animated, faces, cb) ->
     msg.http(url)
       .query(q)
       .get() (err, res, body) ->
+        if err
+          msg.send "Encountered an error :( #{err}"
+          return
+        if res.statusCode isnt 200
+          msg.send "Bad HTTP response :( #{res.statusCode}"
+          return
         response = JSON.parse(body)
         if response?.items
           image = msg.random response.items
@@ -75,6 +83,12 @@ imageMe = (msg, query, animated, faces, cb) ->
     msg.http('https://ajax.googleapis.com/ajax/services/search/images')
       .query(q)
       .get() (err, res, body) ->
+        if err
+          msg.send "Encountered an error :( #{err}"
+          return
+        if res.statusCode isnt 200
+          msg.send "Bad HTTP response :( #{res.statusCode}"
+          return
         images = JSON.parse(body)
         images = images.responseData?.results
         if images?.length > 0
