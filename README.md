@@ -18,7 +18,18 @@ Then add **hubot-google-images** to your `external-scripts.json`:
 ]
 ```
 
-## Using your own mustachify instance
+## Configuration
+
+### Custom Search Engine
+Set environment variables `HUBOT_GOOGLE_CSE_ID` and `HUBOT_GOOGLE_CSE_KEY`
+to use the [Google Custom Search API](https://developers.google.com/custom-search/docs/overview)
+instead of the deprecated image search API.
+
+You might want to use the custom search API if you have concerns about
+seeing NSFW images. The old Google image search API only has `safe=active`
+which is not as strict as `safe=strict` on the new API.
+
+### Custom Mustachification Service
 
 If you want to run you own instance instead of the default [mustachify](http://mustachify.me/), you can add `HUBOT_MUSTACHIFY_URL` to your environment variables and provide your own url. More info and the source code of mustachify can be found at [https://github.com/afeld/mustachio](https://github.com/afeld/mustachio)
 
