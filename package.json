@@ -1,7 +1,7 @@
 {
   "name": "hubot-google-images",
   "description": "A hubot script that interacts with the Google Images API.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "Josh Nichols <technicalpickles@github.com>",
   "license": "MIT",
   "keywords": [
