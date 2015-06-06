@@ -18,6 +18,16 @@ Then add **hubot-google-images** to your `external-scripts.json`:
 ]
 ```
 
+## Configuration
+
+Set environment variables `HUBOT_GOOGLE_CSE_ID` and `HUBOT_GOOGLE_CSE_KEY`
+to use the [Google Custom Search API](https://developers.google.com/custom-search/docs/overview)
+instead of the deprecated image search API.
+
+You might want to use the custom search API if you have concerns about
+seeing NSFW images. The old Google image search API only has `safe=active`
+which is not as strict as `safe=strict` on the new API.
+
 ## Sample Interaction
 
 ```
