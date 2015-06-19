@@ -52,10 +52,10 @@ imageMe = (msg, query, animated, faces, cb) ->
       fields:'items(link)',
       cx: googleCseId,
       key: googleApiKey
-    if typeof animated is 'boolean' and animated is true
+    if animated is true
       q.fileType = 'gif'
       q.hq = 'animated'
-    if typeof faces is 'boolean' and faces is true
+    if faces is true
       q.imgType = 'face'
     url = 'https://www.googleapis.com/customsearch/v1'
     msg.http(url)
