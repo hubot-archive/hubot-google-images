@@ -29,7 +29,7 @@ You might want to use the custom search API if you have concerns about
 seeing NSFW images. The old Google image search API only has `safe=active`
 which is not as strict as `safe=strict` on the new API.
 
-The Custom Search API provides up to [100 search queries per](https://developers.google.com/custom-search/json-api/v1/overview) day for free.
+The Custom Search API provides up to [100 search queries per day](https://developers.google.com/custom-search/json-api/v1/overview) for free.
 If you need more than that you'll have to pay.
 
 #### CSE setup details
