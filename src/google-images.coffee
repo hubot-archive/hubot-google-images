@@ -81,8 +81,12 @@ imageMe = (msg, query, animated, faces, cb) ->
   else
     # Using deprecated Google image search API
     q = v: '1.0', rsz: '8', q: query, safe: 'active'
-    q.imgtype = 'animated' if typeof animated is 'boolean' and animated is true
-    q.imgtype = 'face' if typeof faces is 'boolean' and faces is true
+    if animated is true
+      q.as_filetype = 'gif'
+      q.query += ' animated'
+    if faces is true
+      q.as_filetype = 'jpg'
+      q.query += ' face'
     msg.http('https://ajax.googleapis.com/ajax/services/search/images')
       .query(q)
       .get() (err, res, body) ->
