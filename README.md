@@ -29,6 +29,16 @@ You might want to use the custom search API if you have concerns about
 seeing NSFW images. The old Google image search API only has `safe=active`
 which is not as strict as `safe=strict` on the new API.
 
+The Custom Search API provides up to [100 search queries per day](https://developers.google.com/custom-search/json-api/v1/overview) for free.
+If you need more than that you'll have to pay.
+
+#### CSE setup details
+1. Create a CSE via these [instructions](https://developers.google.com/custom-search/docs/tutorial/creatingcse).
+2. Turn on images in Edit Search Engine > Setup > Basic > Image Search
+3. Get the CSE ID in Edit Search Engine > Setup > Basic > Details (via [these instructions](https://support.google.com/customsearch/answer/2649143?hl=en))
+4. Get the CSE KEY here https://code.google.com/apis/console
+5. Update your conf (and your modules if necessary)
+
 ### Custom Mustachification Service
 
 If you want to run you own instance instead of the default [mustachify](http://mustachify.me/), you can add `HUBOT_MUSTACHIFY_URL` to your environment variables and provide your own url. More info and the source code of mustachify can be found at [https://github.com/afeld/mustachio](https://github.com/afeld/mustachio)
