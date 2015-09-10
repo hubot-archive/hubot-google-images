@@ -127,6 +127,9 @@ imageMe = (msg, query, animated, faces, cb) ->
         else
           msg.send "Sorry, I found no results for '#{query}'."
 
+        if use_giphy
+          msg.send "(fetched from giphy.com)"
+
 ensureImageExtension = (url) ->
   ext = url.split('.').pop()
   if /(png|jpe?g|gif)/i.test(ext)
