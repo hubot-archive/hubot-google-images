@@ -6,6 +6,7 @@
 #   HUBOT_GOOGLE_CSE_ID - The ID of your Custom Search Engine
 #   HUBOT_MUSTACHIFY_URL - Optional. Allow you to use your own mustachify instance.
 #   HUBOT_GIPHY_KEY - If GOOGLE_CSE_* aren't set, use giphy for animated images (issue #10)
+#   HUBOT_GIPHY_RATING - can be one of 'y', 'g', 'pg', 'pg-13' or 'r'
 #
 # Commands:
 #   hubot image me <query> - The Original. Queries Google Images for <query> and returns a random top result.
@@ -92,10 +93,17 @@ imageMe = (msg, query, animated, faces, cb) ->
       use_giphy = (typeof giphy_key is 'string' and giphy_key.length > 0)
       if typeof use_giphy is 'boolean' and use_giphy is true
         url = 'http://api.giphy.com/v1/gifs/search'
+        rating = process.env.HUBOT_GIPHY_RATING
+        if rating and rating.length == 0
+          rating = 'g'
+        else
+          if (rating != 'y') and (rating != 'g') and (rating != 'pg') and (rating != 'pg-13') and (rating != 'r')
+            rating = 'g'
         q = 
           q: query
           api_key: giphy_key
           limit: 100
+          rating: rating
 
     msg.http(url)
       .query(q)
