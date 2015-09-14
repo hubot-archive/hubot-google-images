@@ -97,6 +97,7 @@ imageMe = (msg, query, animated, faces, cb) ->
         if rating and rating.length == 0
           rating = 'g'
         else
+          rating = rating.toLowerCase()
           if (rating != 'y') and (rating != 'g') and (rating != 'pg') and (rating != 'pg-13') and (rating != 'r')
             rating = 'g'
         q = 
