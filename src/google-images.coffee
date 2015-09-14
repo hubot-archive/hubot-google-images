@@ -94,7 +94,7 @@ imageMe = (msg, query, animated, faces, cb) ->
       if typeof use_giphy is 'boolean' and use_giphy is true
         url = 'http://api.giphy.com/v1/gifs/search'
         rating = process.env.HUBOT_GIPHY_RATING
-        if rating and rating.length == 0
+        if !rating or rating.length == 0
           rating = 'g'
         else
           rating = rating.toLowerCase()
