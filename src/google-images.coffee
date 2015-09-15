@@ -5,6 +5,8 @@
 #   HUBOT_GOOGLE_CSE_KEY - Your Google developer API key
 #   HUBOT_GOOGLE_CSE_ID - The ID of your Custom Search Engine
 #   HUBOT_MUSTACHIFY_URL - Optional. Allow you to use your own mustachify instance.
+#   HUBOT_GIPHY_KEY - If GOOGLE_CSE_* aren't set, use giphy for animated images (issue #10)
+#   HUBOT_GIPHY_RATING - can be one of 'y', 'g', 'pg', 'pg-13' or 'r'
 #
 # Commands:
 #   hubot image me <query> - The Original. Queries Google Images for <query> and returns a random top result.
@@ -84,7 +86,28 @@ imageMe = (msg, query, animated, faces, cb) ->
     q = v: '1.0', rsz: '8', q: query, safe: 'active'
     q.imgtype = 'animated' if typeof animated is 'boolean' and animated is true
     q.imgtype = 'face' if typeof faces is 'boolean' and faces is true
-    msg.http('https://ajax.googleapis.com/ajax/services/search/images')
+    url = 'https://ajax.googleapis.com/ajax/services/search/images'
+    use_giphy = false
+
+    if typeof animated is 'boolean' and animated is true
+      giphy_key = (process.env.HUBOT_GIPHY_KEY)
+      use_giphy = (typeof giphy_key is 'string' and giphy_key.length > 0)
+      if typeof use_giphy is 'boolean' and use_giphy is true
+        url = 'http://api.giphy.com/v1/gifs/search'
+        rating = process.env.HUBOT_GIPHY_RATING
+        if !rating or rating.length == 0
+          rating = 'g'
+        else
+          rating = rating.toLowerCase()
+          if (rating != 'y') and (rating != 'g') and (rating != 'pg') and (rating != 'pg-13') and (rating != 'r')
+            rating = 'g'
+        q = 
+          q: query
+          api_key: giphy_key
+          limit: 100
+          rating: rating
+
+    msg.http(url)
       .query(q)
       .get() (err, res, body) ->
         if err
@@ -94,12 +117,20 @@ imageMe = (msg, query, animated, faces, cb) ->
           msg.send "Bad HTTP response :( #{res.statusCode}"
           return
         images = JSON.parse(body)
-        images = images.responseData?.results
-        if images?.length > 0
-          image = msg.random images
-          cb ensureImageExtension image.unescapedUrl
+        if use_giphy
+          images = images.data
+        else
+          images = images.responseData?.results
+        
+        num_images = images.length
+        if num_images > 0
+          picked_image = images[Math.floor(Math.random()*num_images)]
+          msg.send ensureImageExtension picked_image.url
         else
           msg.send "Sorry, I found no results for '#{query}'."
+
+        if use_giphy
+          msg.send "Powered by Giphy"
 
 ensureImageExtension = (url) ->
   ext = url.split('.').pop()
