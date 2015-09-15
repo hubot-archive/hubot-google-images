@@ -55,6 +55,7 @@ imageMe = (msg, query, animated, faces, cb) ->
     if animated is true
       q.fileType = 'gif'
       q.hq = 'animated'
+      q.tbs = 'itp:animated'
     if faces is true
       q.imgType = 'face'
     url = 'https://www.googleapis.com/customsearch/v1'
