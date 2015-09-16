@@ -72,7 +72,7 @@ imageMe = (msg, query, animated, faces, cb) ->
         if response?.items
           image = msg.random response.items
           if animated
-            image.link = image.link.replace(/(giphy\.com\/.*)\/.+_s.gif$/, '\\1/giphy.gif')
+            image.link = image.link.replace(/(giphy\.com\/.*)\/.+_s.gif$/, '$1/giphy.gif')
           cb ensureImageExtension image.link
         else
           msg.send "Oops. I had trouble searching '#{query}'. Try later."
