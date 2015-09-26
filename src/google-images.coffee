@@ -84,8 +84,12 @@ imageMe = (msg, query, animated, faces, cb) ->
   else
     # Using deprecated Google image search API
     q = v: '1.0', rsz: '8', q: query, safe: 'active'
-    q.imgtype = 'animated' if typeof animated is 'boolean' and animated is true
-    q.imgtype = 'face' if typeof faces is 'boolean' and faces is true
+    if animated is true
+      q.as_filetype = 'gif'
+      q.q += ' animated'
+    if faces is true
+      q.as_filetype = 'jpg'
+      q.imgtype = 'face'
     msg.http('https://ajax.googleapis.com/ajax/services/search/images')
       .query(q)
       .get() (err, res, body) ->
@@ -99,13 +103,22 @@ imageMe = (msg, query, animated, faces, cb) ->
         images = images.responseData?.results
         if images?.length > 0
           image = msg.random images
-          cb ensureImageExtension image.unescapedUrl
+          cb ensureResult(image.unescapedUrl, animated)
         else
           msg.send "Sorry, I found no results for '#{query}'."
 
+# Forces giphy result to use animated version
+ensureResult = (url, animated) ->
+  if animated is true
+    ensureImageExtension url.replace(
+      /(giphy\.com\/.*)\/.+_s.gif$/,
+      '$1/giphy.gif')
+  else
+    ensureImageExtension url
+
+# Forces the URL look like an image URL by adding `#.png`
 ensureImageExtension = (url) ->
-  ext = url.split('.').pop()
-  if /(png|jpe?g|gif)/i.test(ext)
+  if /(png|jpe?g|gif)$/i.test(url)
     url
   else
     "#{url}#.png"
