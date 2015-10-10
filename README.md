@@ -43,6 +43,12 @@ If you need more than that you'll have to pay.
 
 If you want to run you own instance instead of the default [mustachify](http://mustachify.me/), you can add `HUBOT_MUSTACHIFY_URL` to your environment variables and provide your own url. More info and the source code of mustachify can be found at [https://github.com/afeld/mustachio](https://github.com/afeld/mustachio)
 
+### Listen for `image me` and `animate me`
+
+If you want to have your bot respond to any chat that begins with `image me` or
+`animate me`, you can add `HUBOT_GOOGLE_IMAGES_HEAR` to a non-empty value to
+have the robot listen to all chat.
+
 ## Sample Interaction
 
 ```
