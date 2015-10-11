@@ -5,6 +5,7 @@
 #   HUBOT_GOOGLE_CSE_KEY - Your Google developer API key
 #   HUBOT_GOOGLE_CSE_ID - The ID of your Custom Search Engine
 #   HUBOT_MUSTACHIFY_URL - Optional. Allow you to use your own mustachify instance.
+#   HUBOT_GOOGLE_IMAGES_HEAR - Optional. If set, bot will respond to any line that begins with "image me" or "animate me" without needing to address the bot directly
 #
 # Commands:
 #   hubot image me <query> - The Original. Queries Google Images for <query> and returns a random top result.
@@ -13,13 +14,6 @@
 #   hubot mustache me <query> - Searches Google Images for the specified query and mustaches it.
 
 module.exports = (robot) ->
-  robot.hear /^image me (.*)/i, (msg) ->
-    imageMe msg, msg.match[1], (url) ->
-      msg.send url
-
-  robot.hear /^animate me (.*)/i, (msg) ->
-    imageMe msg, msg.match[1], true, (url) ->
-      msg.send url
 
   robot.respond /(image|img)( me)? (.*)/i, (msg) ->
     imageMe msg, msg.match[3], (url) ->
@@ -28,6 +22,16 @@ module.exports = (robot) ->
   robot.respond /animate( me)? (.*)/i, (msg) ->
     imageMe msg, msg.match[2], true, (url) ->
       msg.send url
+
+  # pro feature, not added to docs since you can't conditionally document commands
+  if process.env.HUBOT_GOOGLE_IMAGES_HEAR?
+    robot.hear /^image me (.*)/i, (msg) ->
+      imageMe msg, msg.match[1], (url) ->
+        msg.send url
+
+    robot.hear /^animate me (.*)/i, (msg) ->
+      imageMe msg, msg.match[1], true, (url) ->
+        msg.send url
 
   robot.respond /(?:mo?u)?sta(?:s|c)h(?:e|ify)?(?: me)? (.*)/i, (msg) ->
     mustacheBaseUrl = process.env.HUBOT_MUSTACHIFY_URL?.replace(/\/$/, '') or "http://mustachify.me"
