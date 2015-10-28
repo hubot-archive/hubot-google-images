@@ -6,7 +6,7 @@
 #   HUBOT_GOOGLE_CSE_ID - The ID of your Custom Search Engine
 #   HUBOT_MUSTACHIFY_URL - Optional. Allow you to use your own mustachify instance.
 #   HUBOT_GOOGLE_IMAGES_HEAR - Optional. If set, bot will respond to any line that begins with "image me" or "animate me" without needing to address the bot directly
-#   HUBOT_GOOGLE_SWITCH_SAFE_SEARCH_OFF - Optional. Switch off safe search.
+#   HUBOT_GOOGLE_SAFE_SEARCH - Optional. Search safety level.
 #
 # Commands:
 #   hubot image me <query> - The Original. Queries Google Images for <query> and returns a random top result.
@@ -61,7 +61,7 @@ imageMe = (msg, query, animated, faces, cb) ->
     q =
       q: query,
       searchType:'image',
-      safe:'high',
+      safe: process.env.HUBOT_GOOGLE_SAFE_SEARCH || 'high',
       fields:'items(link)',
       cx: googleCseId,
       key: googleApiKey
@@ -71,8 +71,6 @@ imageMe = (msg, query, animated, faces, cb) ->
       q.tbs = 'itp:animated'
     if faces is true
       q.imgType = 'face'
-    if process.env.HUBOT_GOOGLE_SWITCH_SAFE_SEARCH_OFF?
-      q.safe = 'off'
     url = 'https://www.googleapis.com/customsearch/v1'
     msg.http(url)
       .query(q)
@@ -96,9 +94,7 @@ imageMe = (msg, query, animated, faces, cb) ->
           ) error for error in response.error.errors if response.error?.errors
   else
     # Using deprecated Google image search API
-    q = v: '1.0', rsz: '8', q: query, safe: 'active'
-    if process.env.HUBOT_GOOGLE_SWITCH_SAFE_SEARCH_OFF?
-      q.safe = 'off'
+    q = v: '1.0', rsz: '8', q: query, safe: process.env.HUBOT_GOOGLE_SAFE_SEARCH || 'active'
     if animated is true
       q.as_filetype = 'gif'
       q.q += ' animated'
