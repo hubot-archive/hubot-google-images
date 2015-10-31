@@ -77,6 +77,7 @@ imageMe = (msg, query, animated, faces, cb) ->
       .get() (err, res, body) ->
         if err
           if res.statusCode is 403
+            msg.send "Daily image quota exceeded, using alternate source."
             deprecatedImage(msg, query, animated, faces, cb)
           else
             msg.send "Encountered an error :( #{err}"
