@@ -35,7 +35,9 @@ module.exports = (robot) ->
         msg.send url
 
   robot.respond /(?:mo?u)?sta(?:s|c)h(?:e|ify)?(?: me)? (.*)/i, (msg) ->
-    mustacheBaseUrl = process.env.HUBOT_MUSTACHIFY_URL?.replace(/\/$/, '') or "http://mustachify.me"
+    mustacheBaseUrl =
+      process.env.HUBOT_MUSTACHIFY_URL?.replace(/\/$/, '') or
+      "http://mustachify.me"
     mustachify = "#{mustacheBaseUrl}/rand?src="
     imagery = msg.match[1]
 
@@ -101,7 +103,11 @@ imageMe = (msg, query, animated, faces, cb) ->
 
 deprecatedImage = (msg, query, animated, faces, cb) ->
   # Using deprecated Google image search API
-  q = v: '1.0', rsz: '8', q: query, safe: process.env.HUBOT_GOOGLE_SAFE_SEARCH || 'active'
+  q =
+    v: '1.0'
+    rsz: '8'
+    q: query
+    safe: process.env.HUBOT_GOOGLE_SAFE_SEARCH || 'active'
   if animated is true
     q.as_filetype = 'gif'
     q.q += ' animated'
