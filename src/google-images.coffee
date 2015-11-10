@@ -26,7 +26,7 @@ module.exports = (robot) ->
 
   # pro feature, not added to docs since you can't conditionally document commands
   if process.env.HUBOT_GOOGLE_IMAGES_HEAR?
-    robot.hear /^image me (.+)/i, (msg) ->
+    robot.hear /^(image|img) me (.+)/i, (msg) ->
       imageMe msg, msg.match[1], (url) ->
         msg.send url
 
