@@ -35,9 +35,12 @@ module.exports = (robot) ->
         msg.send url
 
   robot.respond /(?:mo?u)?sta(?:s|c)h(?:e|ify)?(?: me)? (.+)/i, (msg) ->
+    if process.env.HUBOT_MUSTACHIFY_URL?
+      msg.send "Sorry, Mustachify server is not configured."
+      msg.send "http://i.imgur.com/FoytI7p.png"
+      return
     mustacheBaseUrl =
-      process.env.HUBOT_MUSTACHIFY_URL?.replace(/\/$/, '') or
-      "http://mustachify.me"
+      process.env.HUBOT_MUSTACHIFY_URL?.replace(/\/$/, '')
     mustachify = "#{mustacheBaseUrl}/rand?src="
     imagery = msg.match[1]
 
