@@ -41,7 +41,9 @@ If you need more than that you'll have to pay.
 
 ### Custom Mustachification Service
 
-If you want to run you own instance instead of the default [mustachify](http://mustachify.me/), you can add `HUBOT_MUSTACHIFY_URL` to your environment variables and provide your own url. More info and the source code of mustachify can be found at [https://github.com/afeld/mustachio](https://github.com/afeld/mustachio)
+To enable the `mustache me` feature, set the environment variable  `HUBOT_MUSTACHIFY_URL`
+to your mustachify server url. More info and the source code of mustachify can be
+found at [https://github.com/afeld/mustachio](https://github.com/afeld/mustachio)
 
 ### Listen for `image me` and `animate me`
 
