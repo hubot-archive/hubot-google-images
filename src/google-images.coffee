@@ -7,7 +7,7 @@
 #   HUBOT_MUSTACHIFY_URL - Optional. Allow you to use your own mustachify instance.
 #   HUBOT_GOOGLE_IMAGES_HEAR - Optional. If set, bot will respond to any line that begins with "image me" or "animate me" without needing to address the bot directly
 #   HUBOT_GOOGLE_SAFE_SEARCH - Optional. Search safety level.
-#   HUBOT_GOOGLE_IMAGES_FALLBACK - The URL of an image to show when API fails.
+#   HUBOT_GOOGLE_IMAGES_FALLBACK - The URL to use when API fails. `{q}` will be replaced with the query string.
 #
 # Commands:
 #   hubot image me <query> - The Original. Queries Google Images for <query> and returns a random top result.
@@ -108,6 +108,7 @@ deprecatedImage = (msg, query, animated, faces, cb) ->
   # Show a fallback image
   imgUrl = process.env.HUBOT_GOOGLE_IMAGES_FALLBACK ||
     'http://i.imgur.com/CzFTOkI.png'
+  imgUrl = imgUrl.replace(/\{q\}/, encodeURIComponent(query))
   cb ensureResult(imgUrl, animated)
 
 # Forces giphy result to use animated version
