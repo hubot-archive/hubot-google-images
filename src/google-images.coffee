@@ -11,8 +11,7 @@
 # Commands:
 #   hubot image me <query> - The Original. Queries Google Images for <query> and returns a random top result.
 #   hubot animate me <query> - The same thing as `image me`, except adds a few parameters to try to return an animated GIF instead.
-#   hubot mustache me <url> - Adds a mustache to the specified URL.
-#   hubot mustache me <query> - Searches Google Images for the specified query and mustaches it.
+#   hubot mustache me <url|query> - Adds a mustache to the specified URL or query result.
 
 module.exports = (robot) ->
 
@@ -35,9 +34,12 @@ module.exports = (robot) ->
         msg.send url
 
   robot.respond /(?:mo?u)?sta(?:s|c)h(?:e|ify)?(?: me)? (.+)/i, (msg) ->
+    if not process.env.HUBOT_MUSTACHIFY_URL?
+      msg.send "Sorry, the Mustachify server is not configured."
+        , "http://i.imgur.com/BXbGJ1N.png"
+      return
     mustacheBaseUrl =
-      process.env.HUBOT_MUSTACHIFY_URL?.replace(/\/$/, '') or
-      "http://mustachify.me"
+      process.env.HUBOT_MUSTACHIFY_URL?.replace(/\/$/, '')
     mustachify = "#{mustacheBaseUrl}/rand?src="
     imagery = msg.match[1]
 
