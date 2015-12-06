@@ -36,7 +36,7 @@ module.exports = (robot) ->
   robot.respond /(?:mo?u)?sta(?:s|c)h(?:e|ify)?(?: me)? (.+)/i, (msg) ->
     if not process.env.HUBOT_MUSTACHIFY_URL?
       msg.send "Sorry, the Mustachify server is not configured."
-      msg.send "http://i.imgur.com/BXbGJ1N.png"
+        , "http://i.imgur.com/BXbGJ1N.png"
       return
     mustacheBaseUrl =
       process.env.HUBOT_MUSTACHIFY_URL?.replace(/\/$/, '')
