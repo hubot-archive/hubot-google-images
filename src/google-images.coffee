@@ -101,7 +101,7 @@ imageMe = (msg, query, animated, faces, cb) ->
           ) error for error in response.error.errors if response.error?.errors
   else
     msg.send "Google Image Search API is not longer available. " +
-      "Please setup up Custom Search Engine API."
+      "Please [setup up Custom Search Engine API](https://github.com/hubot-scripts/hubot-google-images#cse-setup-details)."
     deprecatedImage(msg, query, animated, faces, cb)
 
 deprecatedImage = (msg, query, animated, faces, cb) ->
