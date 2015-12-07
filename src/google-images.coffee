@@ -7,6 +7,7 @@
 #   HUBOT_MUSTACHIFY_URL - Optional. Allow you to use your own mustachify instance.
 #   HUBOT_GOOGLE_IMAGES_HEAR - Optional. If set, bot will respond to any line that begins with "image me" or "animate me" without needing to address the bot directly
 #   HUBOT_GOOGLE_SAFE_SEARCH - Optional. Search safety level.
+#   HUBOT_GOOGLE_IMAGES_FALLBACK - The URL to use when API fails. `{q}` will be replaced with the query string.
 #
 # Commands:
 #   hubot image me <query> - The Original. Queries Google Images for <query> and returns a random top result.
@@ -101,37 +102,16 @@ imageMe = (msg, query, animated, faces, cb) ->
               .error "(see #{error.extendedHelp})" if error.extendedHelp
           ) error for error in response.error.errors if response.error?.errors
   else
+    msg.send "Google Image Search API is not longer available. " +
+      "Please setup up Custom Search Engine API."
     deprecatedImage(msg, query, animated, faces, cb)
 
 deprecatedImage = (msg, query, animated, faces, cb) ->
-  # Using deprecated Google image search API
-  q =
-    v: '1.0'
-    rsz: '8'
-    q: query
-    safe: process.env.HUBOT_GOOGLE_SAFE_SEARCH || 'active'
-  if animated is true
-    q.as_filetype = 'gif'
-    q.q += ' animated'
-  if faces is true
-    q.as_filetype = 'jpg'
-    q.imgtype = 'face'
-  msg.http('https://ajax.googleapis.com/ajax/services/search/images')
-    .query(q)
-    .get() (err, res, body) ->
-      if err
-        msg.send "Encountered an error :( #{err}"
-        return
-      if res.statusCode isnt 200
-        msg.send "Bad HTTP response :( #{res.statusCode}"
-        return
-      images = JSON.parse(body)
-      images = images.responseData?.results
-      if images?.length > 0
-        image = msg.random images
-        cb ensureResult(image.unescapedUrl, animated)
-      else
-        msg.send "Sorry, I found no results for '#{query}'."
+  # Show a fallback image
+  imgUrl = process.env.HUBOT_GOOGLE_IMAGES_FALLBACK ||
+    'http://i.imgur.com/CzFTOkI.png'
+  imgUrl = imgUrl.replace(/\{q\}/, encodeURIComponent(query))
+  cb ensureResult(imgUrl, animated)
 
 # Forces giphy result to use animated version
 ensureResult = (url, animated) ->

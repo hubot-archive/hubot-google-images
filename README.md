@@ -1,6 +1,7 @@
 # hubot-google-images
 
-A hubot script that interacts with the Google Images API for greater productivity and lulz.
+A hubot script that interacts with the Google Custom Search API for greater
+productivity and lulz.
 
 See [`src/google-images.coffee`](src/google-images.coffee) for full documentation.
 
@@ -21,13 +22,9 @@ Then add **hubot-google-images** to your `external-scripts.json`:
 ## Configuration
 
 ### Custom Search Engine
-Set environment variables `HUBOT_GOOGLE_CSE_ID` and `HUBOT_GOOGLE_CSE_KEY`
-to use the [Google Custom Search API](https://developers.google.com/custom-search/docs/overview)
-instead of the deprecated image search API.
-
-You might want to use the custom search API if you have concerns about
-seeing NSFW images. The old Google image search API only has `safe=active`
-which is not as strict as `safe=strict` on the new API.
+Google no longer offers an unregistered image search API. You must set up a
+[Google Custom Search API](https://developers.google.com/custom-search/docs/overview) and set
+the environment variables `HUBOT_GOOGLE_CSE_ID` and `HUBOT_GOOGLE_CSE_KEY`.
 
 The Custom Search API provides up to [100 search queries per day](https://developers.google.com/custom-search/json-api/v1/overview) for free.
 If you need more than that you'll have to pay.
