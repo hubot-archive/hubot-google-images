@@ -31,9 +31,14 @@ If you need more than that you'll have to pay.
 
 #### CSE setup details
 1. Create a CSE via these [instructions](https://developers.google.com/custom-search/docs/tutorial/creatingcse).
+  - To simulate the old behavior:  select "Search the entire web but emphasize included sites" in 'Sites to Search'
+  - Give it any site on creation, and then remove it when it's selected, unless you want to emphasize that site(s).
 2. Turn on images in Edit Search Engine > Setup > Basic > Image Search
 3. Get the CSE ID in Edit Search Engine > Setup > Basic > Details (via [these instructions](https://support.google.com/customsearch/answer/2649143?hl=en))
 4. Get the CSE KEY here https://code.google.com/apis/console
+  - You will need a project, you may reuse an existing one, or create a new one
+  - Select the project
+  - Goto the API manager and create a server credential and use the key from that credential
 5. Update your conf (and your modules if necessary)
 
 ### Custom Mustachification Service
