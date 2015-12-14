@@ -39,7 +39,12 @@ If you need more than that you'll have to pay.
   - You will need a project, you may reuse an existing one, or create a new one
   - Select the project
   - Goto the API manager and create a server credential and use the key from that credential
-5. Update your conf (and your modules if necessary)
+5. Enable Custom Search API
+  - https://console.developers.google.com
+  - Select "Enable APIs and get credentials like keys" in your new project
+  - Click "Custom Search API"
+  - Click the button "Enable API"
+6. Update your conf (and your modules if necessary)
 
 ### Custom Mustachification Service
 
