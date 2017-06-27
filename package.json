@@ -16,7 +16,7 @@
     "url": "https://github.com/hubot-scripts/hubot-google-images/issues"
   },
   "peerDependencies": {
-    "hubot": ">=2 <10"
+    "hubot": ">=2 <10 || 0.0.0-development"
   },
   "devDependencies": {
     "chai": "^2.1.1",
