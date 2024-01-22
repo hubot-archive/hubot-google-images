@@ -6,7 +6,9 @@
   "license": "MIT",
   "keywords": [
     "hubot",
-    "hubot-scripts"
+    "hubot-scripts",
+    "google images",
+    "image search"
   ],
   "repository": {
     "type": "git",
@@ -16,24 +18,25 @@
     "url": "https://github.com/hubot-scripts/hubot-google-images/issues"
   },
   "peerDependencies": {
-    "hubot": ">=2 <10 || 0.0.0-development"
+    "hubot": "^11.1.0"
   },
   "devDependencies": {
-    "chai": "^2.1.1",
-    "coffee-script": "1.6.3",
-    "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-mocha-test": "~0.12.7",
-    "grunt-release": "~0.11.0",
-    "hubot": "2.x",
-    "matchdep": "~0.3.0",
-    "mocha": "^2.1.0",
-    "sinon": "^1.13.0",
-    "sinon-chai": "^2.7.0"
+    "chai": "^4.3.10",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.5.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "hubot-test-helper": "^1.9.0",
+    "husky": "^8.0.3",
+    "mocha": "^10.2.0",
+    "nock": "^13.4.0",
+    "sinon": "^17.0.1",
+    "sinon-chai": "^3.7.0"
   },
-  "main": "index.coffee",
+  "main": "index.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "script/test",
+    "prepare": "husky install"
   }
 }
