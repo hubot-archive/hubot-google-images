@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = (robot) => {
+module.exports = async (robot) => {
   const scriptsPath = path.resolve(__dirname, 'src');
-  robot.loadFile(scriptsPath, 'google-images.js');
+  await robot.loadFile(scriptsPath, 'google-images.js');
 };
